@@ -1,0 +1,54 @@
+<html>
+
+<script>
+var a = "<%= @msgs.last[:id] %>";
+function load(){
+	setInterval(function(){ 
+		//alert("Hello"); 
+		
+		 var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+		    if (xhttp.readyState == 4 && xhttp.status == 200) {
+		     //document.getElementById("demo").innerHTML = xhttp.responseText;
+		     //console.log( xhttp.responseText);
+
+		     	console.log(a);
+		     	document.getElementById("msg").innerHTML = document.getElementById("msg").innerHTML + xhttp.responseText;
+		     	var last_li_element_id = document.getElementsByTagName("li").length - 1;
+		     	var last_li_element = document.getElementsByTagName("li")[last_li_element_id];
+		     	a = last_li_element.id;
+
+
+		     	console.log(a);
+		    }
+		  };
+		  xhttp.open("GET", "/checknewmessage?msgid="+a, true);
+		  xhttp.send();
+		
+	}, 5000);
+}
+
+</script>
+
+<body onload="load()">
+Welcome <%= session['un'].inspect %>
+
+<ul id="msg">
+<% 
+	msg_arr = @msgs
+	msg_arr.each do |msg|	
+%>
+	<li id="<%= msg[:id]%>"> From <%=msg[:user_id]%> <br> <%=msg[:cnt]%>  <br> <small>Time: <%=msg[:time]%></small> </li>
+<%
+	end
+%>
+</ul>
+
+	<form action="/createmessage" method="post">	
+		<input type="text" name="m1" id="m1">
+		<input type="submit" value="send"> 
+	</form>
+
+
+</body>
+</html>

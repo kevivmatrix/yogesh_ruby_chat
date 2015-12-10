@@ -1,0 +1,9 @@
+
+<% 
+	msg_arr = @new_msg
+	msg_arr.each do |msg|	
+%>
+
+<li  id="<%= msg[:id]%>"> From <%=msg[:user_id]%> <br> <%=msg[:cnt]%>  <br> <small>Time: <%=msg[:time]%></small> </li>
+
+<% end %>
